@@ -4,6 +4,7 @@ import java.util.ArrayList;
  * Abstract class that represents an Appliance
  * An assumption has been made that only a single meter of
  * each type can be connected. 
+ * 
  * ECS Smart Meter - COMP1202 Coursework
  * @author dsj1n15
  */
@@ -81,7 +82,8 @@ public abstract class Appliance {
 	 * @param  meter Meter to connect
 	 */
 	public void connectMeter(Meter meter) {
-		if (meter != null) {
+		// Add if meter is not null and not already attached
+		if (meter != null && getMetersOfType(meter) != null) {
 			connMeters.add(meter);            
 		}
 	}
