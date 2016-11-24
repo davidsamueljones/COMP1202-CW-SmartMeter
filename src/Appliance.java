@@ -27,19 +27,19 @@ public abstract class Appliance {
 	 * @param  electricityUse Electric use per unit time [>= 0]
 	 * @param  gasUse Gas use per unit time [>= 0]
 	 * @param  waterUse Water use per unit time [>= 0]
-	 * @param  timeOn  Duty cycle of Appliance [-1 || > 0]
+	 * @param  timeOn  Duty cycle of appliance [-1 || > 0]
 	 */
 	protected Appliance(int electricityUse, int gasUse, int waterUse, int timeOn) {
 		
 		// Throw an exception when constructing if arguments are not sensible
 		if (electricityUse < 0) {
-			throw new IllegalArgumentException("[ERROR] Electricity use must be zero or positive");
+			throw new IllegalArgumentException("[ERROR] Electricity usage must never be negative");
 		}
 		if (gasUse < 0) {
-			throw new IllegalArgumentException("[ERROR] Gas use must be zero or positive");
+			throw new IllegalArgumentException("[ERROR] Gas use must never be negative");
 		}
 		if (waterUse < 0) {
-			throw new IllegalArgumentException("[ERROR] Water use must be zero or positive");
+			throw new IllegalArgumentException("[ERROR] Water use must never be negative");
 		}
 		if (timeOn != -1 && timeOn <= 0) {
 			throw new IllegalArgumentException("[ERROR] Time on must be -1 or positive");
@@ -60,8 +60,8 @@ public abstract class Appliance {
 	}
 
 	/**
-	* Start the Appliances duty cycle [dependent upon timeOn]
-	*/    
+	 * Start the Appliances duty cycle [dependent upon timeOn]
+	 */    
 	protected void use() {
 		// If not already in use, reset and start
 		if (!currentState) {
@@ -71,26 +71,27 @@ public abstract class Appliance {
 	}
 
 	/**
-	* Simulates an appliance being turned off
-	*/
+	 * Simulates an appliance being turned off
+	 */
 	protected void stop() {
 		currentState = false;
 	}
 
 	/**
-	 * Method to connect a Meter to the Appliance
+	 * Connects a Meter to the Appliance
 	 * @param  meter Meter to connect
 	 */
 	public void connectMeter(Meter meter) {
 		// Add if meter is not null and not already attached
-		if (meter != null && getMetersOfType(meter) != null) {
+		// Second term will not be evalulated if first term is false
+		if (meter != null && getMetersOfType(meter.getType()) != null) {
 			connMeters.add(meter);            
 		}
 	}
 
 	/**
-	* Simulate a unit time passing
-	*/
+	 * Simulate a unit time passing
+	 */
 	public void timePasses() {
 		
 		// If appliance is still on
@@ -107,9 +108,9 @@ public abstract class Appliance {
 	}
 
 	/**
-	* Increment all connected meters by their
-	* respective values per unit time
-	*/
+	 * Increment all connected meters by their
+	 * respective values per unit time
+	 */
 	private void incMeters() {
 		incMeterType("electricity", electricityUse);
 		incMeterType("gas", gasUse);
@@ -117,10 +118,10 @@ public abstract class Appliance {
 	}
 	
 	/**
-	* Increment meter of specified type
-	* @param  meterType Type of meter to search for
-	* @param  amount How much to increment meters by
-	*/ 
+	 * Increment meter of specified type
+	 * @param  meterType Type of meter to search for
+	 * @param  amount How much to increment meters by
+	 */ 
 	private void incMeterType(String meterType, int amount) {
 		
 		// Check if meter requires incrementing
@@ -142,10 +143,10 @@ public abstract class Appliance {
 	}
 	
 	/**
-	* Returns the Meter that matches a type
-	* @param   meterType Type of meter to search for
-	* @return  matched Meter or null if not found
-	*/
+	 * Returns the Meter that matches a type
+	 * @param   meterType Type of meter to search for
+	 * @return  matched Meter or null if not found
+	 */
 	private Meter getMetersOfType(String meterType) {
 		
 		// Search for meter type
