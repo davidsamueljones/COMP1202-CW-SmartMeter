@@ -48,6 +48,23 @@ public class House {
 	}
 
 	/**
+	 * Returns the Meter that matches a type
+	 * @param   meterType Type of meter to search for
+	 * @return  matched Meter or null if not found
+	 */
+	private Meter getMeterOfType(String meterType) {
+		
+		// Search for meter type
+		for (Meter meter : meters) {
+			if (meter.getType().equals(meterType)) {
+				return meter;
+			}
+		}
+		
+		return null; // meter not found
+	}
+	
+	/**
 	 * Adds an Appliance to the House
 	 * @param  appliance Appliance to add
 	 */
@@ -112,36 +129,62 @@ public class House {
 		
 		// Increment time of day
 		timeOfDay++;
+
 		// Check if day has ended
 		if (timeOfDay == 96) {
-			System.out.println("END OF DAY REPORT");
-			System.out.println("-----------------");
-			// Output connected meter readings
-			for (Meter meter : meters) {
-				System.out.println(String.format("%s: %d", meter.getType(), meter.getConsumed()));
-			}
-
+			outputMeterReport();
 			timeOfDay = 0; // wrap to begining of next day
-
-
 		}
+
 	}
 
 	/**
-	 * Returns the Meter that matches a type
-	 * @param   meterType Type of meter to search for
-	 * @return  matched Meter or null if not found
+	 * Create a report using the houses connected meters
+	 * Report lists their consumed and generated values
+	 * Prints report to command line after generation
+	 * NOTE: This code is not efficent but is flexible for future reporting changes
 	 */
-	private Meter getMeterOfType(String meterType) {
-		
-		// Search for meter type
-		for (Meter meter : meters) {
-			if (meter.getType().equals(meterType)) {
-				return meter;
-			}
+	private void outputMeterReport() {
+
+		// Declare StringBuilder array of report line count
+		StringBuilder[] reportLines = new StringBuilder[5];
+		// Initialise StringBuilder array to hold the report lines
+		for (int i = 0; i < reportLines.length; i++) {
+		    reportLines[i] = new StringBuilder(1000); // By default assign 1000 characters
 		}
+
+		// Define spacing of columns
+		String columnFormat = "%12s ";
+
+		// Create row headings
+		// reportLines[0] is wrapper
+		reportLines[1].append(String.format(columnFormat, "[DAY REPORT]"));
+		reportLines[2].append(String.format(columnFormat, "{Consumed}"));
+		reportLines[3].append(String.format(columnFormat, "{Generated}"));
+		// reportLines[n-1] is wrapper
 		
-		return null; // meter not found
+		// Append information to columns
+		for (Meter meter : meters) {
+			reportLines[1].append(String.format(columnFormat, meter.getType()));
+			reportLines[2].append(String.format(columnFormat, meter.getConsumed()));
+			reportLines[3].append(String.format(columnFormat, meter.getGenerated()));
+		}
+        
+        // Determine width of report (length of header - 1)
+		int width = reportLines[1].length() - 1;
+
+		// Create a string for the report wrapper
+        for(int i = 0; i < width; i++){
+            reportLines[0].append('*');
+        }   
+        // Copy the report wrapper to the last line
+        reportLines[reportLines.length - 1].append(reportLines[0].toString());
+
+		// Print lines of StringBuilder array
+		for(int i = 0; i < reportLines.length; i++) {
+  			System.out.println(reportLines[i].toString());
+		}
+
 	}
 
 }
