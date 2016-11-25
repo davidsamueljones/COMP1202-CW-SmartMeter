@@ -150,7 +150,7 @@ public class House {
 		StringBuilder[] reportLines = new StringBuilder[5];
 		// Initialise StringBuilder array to hold the report lines
 		for (int i = 0; i < reportLines.length; i++) {
-		    reportLines[i] = new StringBuilder(1000); // By default assign 1000 characters
+			reportLines[i] = new StringBuilder(1000); // By default assign 1000 characters
 		}
 
 		// Define spacing of columns
@@ -169,20 +169,20 @@ public class House {
 			reportLines[2].append(String.format(columnFormat, meter.getConsumed()));
 			reportLines[3].append(String.format(columnFormat, meter.getGenerated()));
 		}
-        
-        // Determine width of report (length of header - 1)
+		
+		// Determine width of report (length of header - 1)
 		int width = reportLines[1].length() - 1;
 
 		// Create a string for the report wrapper
-        for(int i = 0; i < width; i++){
-            reportLines[0].append('*');
-        }   
-        // Copy the report wrapper to the last line
-        reportLines[reportLines.length - 1].append(reportLines[0].toString());
+		for(int i = 0; i < width; i++){
+			reportLines[0].append('*');
+		}   
+		// Copy the report wrapper to the last line
+		reportLines[reportLines.length - 1].append(reportLines[0].toString());
 
 		// Print lines of StringBuilder array
 		for(int i = 0; i < reportLines.length; i++) {
-  			System.out.println(reportLines[i].toString());
+			System.out.println(reportLines[i].toString());
 		}
 
 	}
