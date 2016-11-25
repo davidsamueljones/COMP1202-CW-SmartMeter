@@ -29,7 +29,7 @@ public class GasMeter extends Meter {
 	 */
 	@Override
 	public String getType() {
-		return "gas";
+		return "Gas";
 	}
 
 }

@@ -29,7 +29,7 @@ public class WaterMeter extends Meter {
 	 */
 	@Override
 	public String getType() {
-		return "water";
+		return "Water";
 	}
 
 }

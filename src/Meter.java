@@ -50,6 +50,14 @@ public abstract class Meter {
 	}
 
 	/**
+	 * Returns value of consumed
+	 * @return  Value of consumed
+	 */
+	public int getConsumed() {
+		return consumed;
+	}
+
+	/**
 	 * Increment generated value
 	 * Use default increment of 1
 	 */
@@ -68,6 +76,15 @@ public abstract class Meter {
 			generated += inc;
 		}
 	}
+
+	/**
+	 * Returns value of generated
+	 * @return  Value of generated
+	 */
+	public int getGenerated() {
+		return generated;
+	}
+
 
 	/**
 	 * Returns the state of canGenerate

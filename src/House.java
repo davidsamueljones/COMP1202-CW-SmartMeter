@@ -9,6 +9,8 @@ import java.util.ArrayList;
  * @author dsj1n15
  */
 public class House {
+	int timeOfDay; // units of 15 minutes
+
 	ArrayList<Meter> meters;
 	ArrayList<Appliance> appliances;
 
@@ -16,6 +18,8 @@ public class House {
 	 * Constructor for House class
 	 */
 	protected House() {
+		timeOfDay = 0;
+
 		// Initialise meter and appliance ArrayLists
 		meters = new ArrayList<Meter>();
 		appliances = new ArrayList<Appliance>();
@@ -50,11 +54,15 @@ public class House {
 	public void addAppliance(Appliance appliance) {
 		// Add if appliance is not null
 		if (appliance == null) {
-			System.err.println("[WARNING] Appliance not added to house - null meter");      
+			System.err.println("[WARNING] Appliance not added to house - null appliance");      
 		}
 		else {
-			// Only allow 25 appliances max
-			if (numAppliances() >= 25) {
+			// Check for exact appliance reference in appliances
+			if (appliances.contains(appliance)) {
+				System.err.println("[WARNING] Appliance not added to house - appliance instance exists in house"); 
+			}
+			// Check if number of appliances exceed max
+			else if (numAppliances() >= 25) {
 				System.err.println("[WARNING] Appliance not added to house - maximum of 25 appliances");
 			}
 			else {
@@ -69,8 +77,17 @@ public class House {
 	 * @param  appliance Appliance to remove
 	 */
 	public void removeAppliance(Appliance appliance) {
-		if (appliance != null) {
-			appliances.remove(appliance);            
+		if (appliance == null) {
+			System.err.println("[WARNING] Appliance not removed from house - null appliance"); 
+		}
+		else {
+			// Attempt to remove appliance, returns true if successful
+			if (appliances.remove(appliance)) {
+				System.out.println(String.format("Appliance '%s' removed from house", appliance.getType()));
+			}
+			else {
+				System.err.println("[WARNING] Appliance not removed from house - not found"); 
+			}
 		}
 	}
 
@@ -86,9 +103,27 @@ public class House {
 	 * Simulate a unit time passing in the house
 	 */
 	public void timePasses() {
-		// Run each Appliance timePasses method
+		// Call each Appliance timePasses method
 		for (Appliance appliance : appliances) {
 			appliance.timePasses();
+		}
+
+		// !!! Call each Person timePasses method
+		
+		// Increment time of day
+		timeOfDay++;
+		// Check if day has ended
+		if (timeOfDay == 96) {
+			System.out.println("END OF DAY REPORT");
+			System.out.println("-----------------");
+			// Output connected meter readings
+			for (Meter meter : meters) {
+				System.out.println(String.format("%s: %d", meter.getType(), meter.getConsumed()));
+			}
+
+			timeOfDay = 0; // wrap to begining of next day
+
+
 		}
 	}
 

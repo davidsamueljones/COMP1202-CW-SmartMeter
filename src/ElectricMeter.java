@@ -51,7 +51,7 @@ public class ElectricMeter extends Meter {
 	 */
 	@Override
 	public String getType() {
-		return "electric";
+		return "Electric";
 	}
 
 }

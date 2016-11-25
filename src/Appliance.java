@@ -124,9 +124,9 @@ public abstract class Appliance {
 	 * respective values per unit time
 	 */
 	private void incMeters() {
-		incMeterType("electric", electricityUse);
-		incMeterType("gas", gasUse);
-		incMeterType("water", waterUse);
+		incMeterType("Electric", electricityUse);
+		incMeterType("Gas", gasUse);
+		incMeterType("Water", waterUse);
 	}
 	
 	/**
