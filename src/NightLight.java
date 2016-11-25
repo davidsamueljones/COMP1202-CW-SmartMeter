@@ -45,17 +45,27 @@ public class NightLight extends Appliance {
 	}
 
 	/**
-	 * Method to start the TV
+	 * Method to start the NightLight
 	 */    
 	public void turnOn() {
 		use();
+		System.out.println(String.format("'%s' turned on...", getType()));
 	} 
 
 	/**
-	 * Method to stop the TV
+	 * Method to stop the NightLight
 	 */    
 	public void turnOff() {
 		stop();
+		System.out.println(String.format("'%s' turned off...", getType()));
 	} 
+
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public String getType() {
+		return "Night light";
+	}
 
 }

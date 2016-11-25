@@ -47,6 +47,15 @@ public class Dishwasher extends Appliance {
 	 */    
 	public void washDishes() {
 		use();
+		System.out.println(String.format("'%s' is washing dishes...", getType()));
 	} 
+
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public String getType() {
+		return "Dishwasher";
+	}
 
 }

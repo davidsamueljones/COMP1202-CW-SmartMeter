@@ -51,7 +51,7 @@ public abstract class Appliance {
 		this.waterUse = waterUse;
 		this.timeOn = timeOn;
 		
-		// Initalise ongoing variables
+		// Initialise ongoing variables
 		this.currentState = false;
 		this.currentTimeOn = 0;
 
@@ -65,8 +65,8 @@ public abstract class Appliance {
 	protected void use() {
 		// If not already in use, reset and start
 		if (!currentState) {
+			stop(); // reset
 			currentState = true;
-			currentTimeOn = 0;
 		}
 	}
 
@@ -75,6 +75,7 @@ public abstract class Appliance {
 	 */
 	protected void stop() {
 		currentState = false;
+		currentTimeOn = 0;
 	}
 
 	/**
@@ -82,10 +83,20 @@ public abstract class Appliance {
 	 * @param  meter Meter to connect
 	 */
 	public void connectMeter(Meter meter) {
-		// Add if meter is not null and not already attached
-		// Second term will not be evalulated if first term is false
-		if (meter != null && getMetersOfType(meter.getType()) != null) {
-			connMeters.add(meter);            
+		// Check meter is not null
+		if (meter == null) {
+			System.err.println("[WARNING] Meter not connected to appliance - null meter");
+		}
+		else {
+			// Check meter is not already attached, else add to array list
+			String type = meter.getType();
+			if (getMeterOfType(type) != null) {
+				System.err.println("[WARNING] Meter not connected to appliance - meter type is already connected");
+			}
+			else {
+				System.out.println(String.format("Meter of type '%s' connected to appliance", type));
+				connMeters.add(meter);	
+			}
 		}
 	}
 
@@ -102,7 +113,8 @@ public abstract class Appliance {
 
 		// Check if appliance should be turned off
 		if (currentTimeOn == timeOn) {
-			currentState = false;
+			stop();
+			System.out.println(String.format("'%s' duty cycle has completed and has turned off automatically...", getType()));
 		}
 
 	}
@@ -112,7 +124,7 @@ public abstract class Appliance {
 	 * respective values per unit time
 	 */
 	private void incMeters() {
-		incMeterType("electricity", electricityUse);
+		incMeterType("electric", electricityUse);
 		incMeterType("gas", gasUse);
 		incMeterType("water", waterUse);
 	}
@@ -130,15 +142,16 @@ public abstract class Appliance {
 		}
 
 		// Get the meter from meters
-		Meter meterOfType = getMetersOfType(meterType);
+		Meter meterOfType = getMeterOfType(meterType);
 	
 		// If null was returned, meter not found
 		if (meterOfType == null) {
-			System.err.println("[WARNING] Meter type not connected: " + meterType);
+			System.err.println(String.format("[WARNING] Attempted meter increment but meter of type '%s' not connected", meterType));
 		}
-		
-		// For meters of type, incrementConsumed
-		meterOfType.incrementConsumed(amount);
+		else {
+			// For meter of type, incrementConsumed
+			meterOfType.incrementConsumed(amount);			
+		}
 
 	}
 	
@@ -147,7 +160,7 @@ public abstract class Appliance {
 	 * @param   meterType Type of meter to search for
 	 * @return  matched Meter or null if not found
 	 */
-	private Meter getMetersOfType(String meterType) {
+	private Meter getMeterOfType(String meterType) {
 		
 		// Search for meter type
 		for (Meter meter : connMeters) {
@@ -158,5 +171,11 @@ public abstract class Appliance {
 		
 		return null; // meter not found
 	}
+
+	/**
+	 * Return the type of Appliance as a string
+	 * @return  Appliance type as string
+	 */
+	public abstract String getType();
 
 }

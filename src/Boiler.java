@@ -41,6 +41,7 @@ public class Boiler extends Appliance {
 	 */    
 	public void turnOn() {
 		use();
+		System.out.println(String.format("'%s' turned on...", getType()));
 	} 
 
 	/**
@@ -48,6 +49,15 @@ public class Boiler extends Appliance {
 	 */    
 	public void turnOff() {
 		stop();
+		System.out.println(String.format("'%s' turned off...", getType()));
 	} 
+
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public String getType() {
+		return "Boiler";
+	}
 
 }

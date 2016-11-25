@@ -22,6 +22,7 @@ public abstract class Cooker extends Appliance {
 	 */    
 	public void cook() {
 		use();
+		System.out.println(String.format("'%s' is cooking...", getType()));
 	}   
 
 }

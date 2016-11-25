@@ -42,4 +42,12 @@ public class ElectricShower extends Shower {
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public String getType() {
+		return "Electric shower";
+	}
+
 }

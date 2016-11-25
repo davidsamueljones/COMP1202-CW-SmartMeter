@@ -22,6 +22,7 @@ public abstract class Shower extends Appliance {
 	 */    
 	public void shower() {
 		use();
+		System.out.println("Shower has been turned on...");
 	}   
-	
+
 }

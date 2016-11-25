@@ -37,4 +37,12 @@ public class PowerShower extends Shower {
 		super(electricityUse, gasUse, waterUse, 1);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public String getType() {
+		return "Power shower";
+	}
+
 }

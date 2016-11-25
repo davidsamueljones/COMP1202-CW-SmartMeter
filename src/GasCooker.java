@@ -41,4 +41,12 @@ public class GasCooker extends Cooker {
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public String getType() {
+		return "Gas cooker";
+	}
+
 }	

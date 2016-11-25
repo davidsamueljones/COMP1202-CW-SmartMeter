@@ -44,4 +44,12 @@ public class ElectricCooker extends Cooker {
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public String getType() {
+		return "Electric cooker";
+	}
+
 }

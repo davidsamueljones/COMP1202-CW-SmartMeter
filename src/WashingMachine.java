@@ -47,6 +47,15 @@ public class WashingMachine extends Appliance {
 	 */    
 	public void doWashing() {
 		use();
+		System.out.println(String.format("'%s' is doing washing ...", getType()));
 	}   
 	
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public String getType() {
+		return "Washing machine";
+	}
+
 }

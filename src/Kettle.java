@@ -48,6 +48,15 @@ public class Kettle extends Appliance {
 	 */    
 	public void boil() {
 		use();
+		System.out.println(String.format("'%s' is boiling water...", getType()));
 	} 
+
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public String getType() {
+		return "Kettle";
+	}
 
 }

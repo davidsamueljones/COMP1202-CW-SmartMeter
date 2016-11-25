@@ -44,4 +44,12 @@ public class Refrigerator extends Appliance {
 		}
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public String getType() {
+		return "Refrigerator";
+	}
+
 }
