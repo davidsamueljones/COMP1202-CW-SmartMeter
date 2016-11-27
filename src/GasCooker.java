@@ -36,9 +36,9 @@ public class GasCooker extends Cooker {
 		super(electricityUse, gasUse, waterUse, 4);
 
 		// Check if arguments are sensible for Appliance type
-		if (waterUse != 0) {
-			throw new IllegalArgumentException("[ERROR] This appliance cannot use water");
-		}
+		verifyUsage(true, false, true);
+		
+		// No extra tasks
 	}
 
 	/**

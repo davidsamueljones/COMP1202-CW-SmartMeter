@@ -15,6 +15,10 @@ public abstract class Shower extends Appliance {
 	 */
 	public Shower(int electricityUse, int gasUse, int waterUse, int timeOn) {
 		super(electricityUse, gasUse, waterUse, timeOn);
+		
+		// Define Appliance tasks on object instantisation
+		// An exception is thrown if the task method does not exist
+		addTask(new ApplianceTask("Shower", getMethod("shower"), false, false));
 	}
 	
 	/**

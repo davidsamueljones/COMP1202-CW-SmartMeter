@@ -15,6 +15,10 @@ public abstract class Cooker extends Appliance {
 	 */
 	public Cooker(int electricityUse, int gasUse, int waterUse, int timeOn) {
 		super(electricityUse, gasUse, waterUse, timeOn);
+		
+		// Define Appliance tasks on object instantisation
+		// An exception is thrown if the task method does not exist
+		addTask(new ApplianceTask("Cook", getMethod("cook"), true, false));
 	}
 
 	/**

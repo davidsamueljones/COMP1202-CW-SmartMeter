@@ -35,6 +35,11 @@ public class PowerShower extends Shower {
 	 */
 	public PowerShower(int electricityUse, int gasUse, int waterUse) {
 		super(electricityUse, gasUse, waterUse, 1);
+		
+		// Check if arguments are sensible for Appliance type
+		verifyUsage(true, false, false);
+
+		// No extra tasks
 	}
 
 	/**

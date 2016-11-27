@@ -37,9 +37,9 @@ public class ElectricShower extends Shower {
 		super(electricityUse, gasUse, waterUse, 1);
 
 		// Check if arguments are sensible for Appliance type
-		if (gasUse != 0) {
-			throw new IllegalArgumentException("[ERROR] This appliance cannot use gas");
-		}
+		verifyUsage(false, true, false);
+		
+		// No extra tasks
 	}
 
 	/**

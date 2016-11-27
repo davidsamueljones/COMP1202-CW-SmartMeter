@@ -34,6 +34,14 @@ public class Boiler extends Appliance {
 	 */
 	public Boiler(int electricityUse, int gasUse, int waterUse) {
 		super(electricityUse, gasUse, waterUse, -1);
+		
+		// Check if arguments are sensible for Appliance type
+		verifyUsage(false, false, false);
+
+		// Define Appliance tasks on object instantisation
+		// An exception is thrown if the task method does not exist
+		addTask(new ApplianceTask("TurnOnBoiler", getMethod("turnOn"), true, false));
+		addTask(new ApplianceTask("TurnOffBoiler", getMethod("turnOff"), true, true));
 	}
 
 	/**

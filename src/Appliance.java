@@ -1,3 +1,4 @@
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +22,8 @@ public abstract class Appliance {
 
 	// Connected meters
 	private ArrayList<Meter> connMeters;
+	// Tasks that can be run by Appliance
+	private ArrayList<ApplianceTask> tasks;
 
 	/**
 	 * Constructor for Appliance class
@@ -33,16 +36,20 @@ public abstract class Appliance {
 		
 		// Throw an exception when constructing if arguments are not sensible
 		if (electricityUse < 0) {
-			throw new IllegalArgumentException("[ERROR] Electricity usage must never be negative");
+			Logger.error("Electricity usage must never be negative");
+			throw new IllegalArgumentException();
 		}
 		if (gasUse < 0) {
-			throw new IllegalArgumentException("[ERROR] Gas use must never be negative");
+			Logger.error("Gas use must never be negative");
+			throw new IllegalArgumentException();
 		}
 		if (waterUse < 0) {
-			throw new IllegalArgumentException("[ERROR] Water use must never be negative");
+			Logger.error("Water use must never be negative");
+			throw new IllegalArgumentException();
 		}
 		if (timeOn != -1 && timeOn <= 0) {
-			throw new IllegalArgumentException("[ERROR] Time on must be -1 or positive");
+			Logger.error("Time on must be -1 or positive");
+			throw new IllegalArgumentException();
 		}
 
 		// Assign variables
@@ -50,15 +57,46 @@ public abstract class Appliance {
 		this.gasUse = gasUse;
 		this.waterUse = waterUse;
 		this.timeOn = timeOn;
-		
+
 		// Initialise ongoing variables
 		this.currentState = false;
 		this.currentTimeOn = 0;
 
-		// Initialise meter ArrayList
+		// Initialise ArrayLists
 		connMeters = new ArrayList<Meter>(); 
+		tasks = new ArrayList<ApplianceTask>();
+	}
+	
+	/**
+	 * Checks if appliance usages are valid against banned list
+	 * Throw an exception if usage banned but usage is non zero
+	 * @param  notElectricity True if electricty must be == 0
+	 * @param  notGas True if gas must be == 0
+	 * @param  notWater True if water must be == 0
+	 */
+	protected void verifyUsage(boolean notElectricity, boolean notGas, boolean notWater) {
+		// Check if arguments are sensible for Appliance type
+		if (notElectricity && electricityUse != 0) {
+			Logger.error("This appliance cannot use water");
+			throw new IllegalArgumentException();
+		}
+		if (notGas && gasUse != 0) {
+			Logger.error("This appliance cannot use gas");
+			throw new IllegalArgumentException();
+		}
+		if (notWater & waterUse != 0) {
+			Logger.error("This appliance cannot use water");
+			throw new IllegalArgumentException();
+		}
 	}
 
+	/**
+	 * @return  Value of currentState
+	 */
+	public boolean getCurrentState() {
+		return currentState;
+	}
+	
 	/**
 	 * Start the Appliances duty cycle [dependent upon timeOn]
 	 */    
@@ -85,13 +123,13 @@ public abstract class Appliance {
 	public void connectMeter(Meter meter) {
 		// Check meter is not null
 		if (meter == null) {
-			System.err.println("[WARNING] Meter not connected to appliance - null meter");
+			Logger.warning("Meter not connected to appliance - null meter");
 		}
 		else {
 			// Check meter is not already attached, else add to array list
 			String type = meter.getType();
 			if (getMeterOfType(type) != null) {
-				System.err.println("[WARNING] Meter not connected to appliance - meter type is already connected");
+				Logger.warning("Meter not connected to appliance - meter type is already connected");
 			}
 			else {
 				System.out.println(String.format("Meter of type '%s' connected to appliance", type));
@@ -146,7 +184,7 @@ public abstract class Appliance {
 	
 		// If null was returned, meter not found
 		if (meterOfType == null) {
-			System.err.println(String.format("[WARNING] Attempted meter increment but meter of type '%s' not connected", meterType));
+			Logger.warning(String.format("Attempted meter increment but meter of type '%s' not connected", meterType));
 		}
 		else {
 			// For meter of type, incrementConsumed
@@ -173,6 +211,80 @@ public abstract class Appliance {
 	}
 
 	/**
+	 * Adds a ApplianceTask to the Appliance task list
+	 * Verifies that the task is valid before adding
+	 * @param  task ApplianceTask to add
+	 */
+	protected void addTask(ApplianceTask task) {
+		// Check if task name already exists in task list (also covers exact instance search)
+		if (getTaskFromName(task.getTaskName()) != null) {
+			Logger.error(String.format("Task name '%s' already exists", task.getTaskName()));
+			throw new IllegalArgumentException();			
+		}
+		
+		// ApplianceTask is unique so add to task list 
+		tasks.add(task);
+	}
+	
+	/**
+	 * Gets a ApplianceTask from the Appliance task list using taskName
+	 * @param  taskName Name of task to get
+	 * @return ApplianceTask matching taskName, else null
+	 */
+	public ApplianceTask getTaskFromName(String taskName) {
+		for (ApplianceTask task : tasks) {
+			if (task.getTaskName().equals(taskName)) {
+				return task;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Does a ApplianceTask from the Appliance task list using an ApplianceTask
+	 * The exact instance of the ApplianceTask must be used for security purposes
+	 * @param  task ApplianceTask to run
+	 * @return True or false respective to if the task ran successfully
+	 */
+	public boolean doTask(ApplianceTask task) {
+		// Check if exact task object is member of appliance
+		if (tasks.contains(task)) {
+			// Get method as defined by task
+			Method taskMethod = task.getTaskMethod();
+
+			if (taskMethod != null) {
+				try {
+					// Attempt to run method
+					taskMethod.invoke(this);
+					return true; // task ran successfully
+				} 
+				catch (Exception e) {
+					Logger.warning("Task failed when invoked on Appliance");
+				}
+			}
+		}
+		else {
+			Logger.warning("Task not a member of Appliances task list");
+		}
+		return false; // task did not run successfully
+	}
+	
+	/**
+	 * Get the Method object for a given name
+	 * @param  methodName Name of method to get
+	 * @return Method object with name of methodName, if not found return null
+	 */
+	protected Method getMethod(String methodName) {
+		try {
+			// Get the class of the current instance and get the method of methodName in the class
+			return this.getClass().getMethod(methodName);
+		} catch (NoSuchMethodException e) {
+			// Method not found
+			return null;
+		}
+	}
+	
+	/**	
 	 * Return the type of Appliance as a string
 	 * @return  Appliance type as string
 	 */

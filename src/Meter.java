@@ -17,13 +17,16 @@ public abstract class Meter {
 
 		// Throw an exception when constructing if arguments are not sensible
 		if (consumed < 0) {
-			throw new IllegalArgumentException("[ERROR] Consumed value must be zero or positive");
+			Logger.error("Consumed value must be zero or positive");
+			throw new IllegalArgumentException();
 		}
 		if (!canGenerate && generated != 0) {
-			throw new IllegalArgumentException("[ERROR] Generated value must be zero if cannot generate");
+			Logger.error("Generated value must be zero if cannot generate");
+			throw new IllegalArgumentException();
 		}
 		if (generated < 0) {
-			throw new IllegalArgumentException("[ERROR] Generated value must be zero or positive");
+			Logger.error("Generated value must be zero or positive");
+			throw new IllegalArgumentException();
 		}
 
 		// Assign variables

@@ -36,12 +36,12 @@ public class TV extends Appliance {
 		super(electricityUse, gasUse, waterUse, -1);
 
 		// Check if arguments are sensible for Appliance type
-		if (gasUse != 0) {
-			throw new IllegalArgumentException("[ERROR] This appliance cannot use gas");
-		}
-		if (waterUse != 0) {
-			throw new IllegalArgumentException("[ERROR] This appliance cannot use water");
-		}
+		verifyUsage(false, true, true);
+		
+		// Define Appliance tasks on object instantisation
+		// An exception is thrown if the task method does not exist
+		addTask(new ApplianceTask("TurnOnTV", getMethod("turnOn"), false, false));
+		addTask(new ApplianceTask("TurnOffTV", getMethod("turnOff"), true, true));
 	}
 
 	/**

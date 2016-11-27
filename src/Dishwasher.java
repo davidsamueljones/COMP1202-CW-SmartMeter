@@ -37,9 +37,11 @@ public class Dishwasher extends Appliance {
 		super(electricityUse, gasUse, waterUse, 6);
 
 		// Check if arguments are sensible for Appliance type
-		if (gasUse != 0) {
-			throw new IllegalArgumentException("[ERROR] This appliance cannot use gas");
-		}
+		verifyUsage(false, true, false);
+		
+		// Define Appliance tasks on object instantisation
+		// An exception is thrown if the task method does not exist
+		addTask(new ApplianceTask("WashDishes", getMethod("washDishes"), false, false));
 	}
 
 	/**

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Class representing a house
@@ -9,20 +10,45 @@ import java.util.ArrayList;
  * @author dsj1n15
  */
 public class House {
-	int timeOfDay; // units of 15 minutes
+	int time; // units of 15 minutes (non-wrapping)
 
+	// Array lists
 	ArrayList<Meter> meters;
 	ArrayList<Appliance> appliances;
+	ArrayList<Person> people;
 
 	/**
 	 * Constructor for House class
+	 * Default time to 0
 	 */
-	protected House() {
-		timeOfDay = 0;
+	public House() {
+		this(0);
+	}
 
-		// Initialise meter and appliance ArrayLists
+	/**
+	 * Constructor for House class
+	 * @param  time The current time in the house
+	 */
+	public House(int time) {
+
+		if (time < 0) {
+			Logger.error("House's time cannot be negative");
+			throw new IllegalArgumentException();
+		}
+	
+		this.time = time;
+		
+		// Initialise ArrayLists
 		meters = new ArrayList<Meter>();
 		appliances = new ArrayList<Appliance>();
+		people = new ArrayList<Person>();
+	}
+
+	/**
+	 * @return  Returns the value of time
+	 */
+	public int getTime() {
+		return time;
 	}
 
 	/**
@@ -32,13 +58,13 @@ public class House {
 	public void addMeter(Meter meter) {
 		// Check meter is not null
 		if (meter == null) {
-			System.err.println("[WARNING] Meter not added to house - null meter");
+			Logger.warning("Meter not added to house - null meter");
 		}
 		else {
 			// Check meter is not already attached, else add to array list
 			String type = meter.getType();
 			if (getMeterOfType(type) != null) {
-				System.err.println("[WARNING] Meter not added to house - meter type already exists");
+				Logger.warning("Meter not added to house - meter type already exists");
 			}
 			else {
 				System.out.println(String.format("Meter of type '%s' added to house", type));
@@ -52,15 +78,13 @@ public class House {
 	 * @param   meterType Type of meter to search for
 	 * @return  matched Meter or null if not found
 	 */
-	private Meter getMeterOfType(String meterType) {
-		
+	private Meter getMeterOfType(String meterType) {	
 		// Search for meter type
 		for (Meter meter : meters) {
 			if (meter.getType().equals(meterType)) {
 				return meter;
 			}
-		}
-		
+		}	
 		return null; // meter not found
 	}
 	
@@ -71,21 +95,20 @@ public class House {
 	public void addAppliance(Appliance appliance) {
 		// Add if appliance is not null
 		if (appliance == null) {
-			System.err.println("[WARNING] Appliance not added to house - null appliance");      
+			Logger.warning("Appliance not added to house - null appliance");      
 		}
+		// Check for exact appliance reference in appliances
+		else if (appliances.contains(appliance)) {
+			Logger.warning("Appliance not added to house - appliance instance exists in house"); 
+		}
+		// Check if number of appliances exceed max
+		else if (numAppliances() >= 25) {
+			Logger.warning("Appliance not added to house - maximum of 25 appliances");
+		}
+		// Appliance okay
 		else {
-			// Check for exact appliance reference in appliances
-			if (appliances.contains(appliance)) {
-				System.err.println("[WARNING] Appliance not added to house - appliance instance exists in house"); 
-			}
-			// Check if number of appliances exceed max
-			else if (numAppliances() >= 25) {
-				System.err.println("[WARNING] Appliance not added to house - maximum of 25 appliances");
-			}
-			else {
-				System.out.println(String.format("Appliance of type '%s' added to house", appliance.getType()));
-				appliances.add(appliance);      
-			}
+			System.out.println(String.format("Appliance of type '%s' added to house", appliance.getType()));
+			appliances.add(appliance);      
 		}
 	}
 
@@ -95,7 +118,7 @@ public class House {
 	 */
 	public void removeAppliance(Appliance appliance) {
 		if (appliance == null) {
-			System.err.println("[WARNING] Appliance not removed from house - null appliance"); 
+			Logger.warning("Appliance not removed from house - null appliance"); 
 		}
 		else {
 			// Attempt to remove appliance, returns true if successful
@@ -103,7 +126,7 @@ public class House {
 				System.out.println(String.format("Appliance '%s' removed from house", appliance.getType()));
 			}
 			else {
-				System.err.println("[WARNING] Appliance not removed from house - not found"); 
+				Logger.warning("Appliance not removed from house - not found"); 
 			}
 		}
 	}
@@ -115,7 +138,34 @@ public class House {
 	public int numAppliances() {
 		return appliances.size();
 	}
-
+	
+	/**
+	 * @return  Returns the iterator for appliances
+	 */
+	public Iterator<Appliance> getAppliancesIterator() {
+		return appliances.iterator();
+	}
+	
+	/**
+	 * Adds a Person to the House
+	 * @param  person Person to add
+	 */
+	public void addPerson(Person person) {
+		// Check Person is not null
+		if (person == null) {
+			Logger.warning("Person not added to house - null person");
+		}
+		// Check for exact person reference in people
+		else if (people.contains(person)) {
+			Logger.warning("Person not added to house - person instance exists in house");
+		}
+		else {
+			// Add to array list
+			System.out.println(String.format("Meter of type '%s' added to house", person.getName()));
+			people.add(person);	
+		}
+	}
+	
 	/**
 	 * Simulate a unit time passing in the house
 	 */
@@ -125,15 +175,17 @@ public class House {
 			appliance.timePasses();
 		}
 
-		// !!! Call each Person timePasses method
-		
+		// Call each Person timePasses method
+		for (Person person : people) {
+			person.timePasses(time);
+		}
+
 		// Increment time of day
-		timeOfDay++;
+		time++;
 
 		// Check if day has ended
-		if (timeOfDay == 96) {
+		if (time % 96 == 0) {
 			outputMeterReport();
-			timeOfDay = 0; // wrap to begining of next day
 		}
 
 	}
@@ -142,7 +194,7 @@ public class House {
 	 * Create a report using the houses connected meters
 	 * Report lists their consumed and generated values
 	 * Prints report to command line after generation
-	 * NOTE: This code is not efficent but is flexible for future reporting changes
+	 * NOTE: This code is not memory efficent or fast but is flexible for future report changes
 	 */
 	private void outputMeterReport() {
 
@@ -150,7 +202,7 @@ public class House {
 		StringBuilder[] reportLines = new StringBuilder[5];
 		// Initialise StringBuilder array to hold the report lines
 		for (int i = 0; i < reportLines.length; i++) {
-			reportLines[i] = new StringBuilder(1000); // By default assign 1000 characters
+			reportLines[i] = new StringBuilder(256); // By default assign 256 characters per line
 		}
 
 		// Define spacing of columns
