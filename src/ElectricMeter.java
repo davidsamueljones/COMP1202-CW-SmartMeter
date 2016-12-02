@@ -1,6 +1,6 @@
 /**
- * Class of Meter that represents an electric meter
- * Assumed that meter can generate and consume
+ * Class of Meter that represents an electric meter.
+ * Assumed that meter can generate and consume.
  * 
  * ECS Smart Meter - COMP1202 Coursework
  * @author dsj1n15
@@ -9,16 +9,16 @@ public class ElectricMeter extends Meter {
 
 
 	/**
-	 * Constructor for ElectricMeter class
-	 * Assign defaults
+	 * Constructor for ElectricMeter class.
+	 * Assign defaults.
 	 */
 	public ElectricMeter() {
 		this(0);
 	}
 
 	/**
-	 * Constructor for ElectricMeter class
-	 * Set consumed by parameter, default others
+	 * Constructor for ElectricMeter class.
+	 * Set consumed by parameter, default others.
 	 * @param  consumed Initial count of consumed electric
 	 */
 	public ElectricMeter(int consumed) {
@@ -26,8 +26,8 @@ public class ElectricMeter extends Meter {
 	}
 
 	/**
-	 * Constructor for ElectricMeter class
-	 * Set consumed  and canGenerate by parameter, default others
+	 * Constructor for ElectricMeter class.
+	 * Set consumed  and canGenerate by parameter, default others.
 	 * @param  consumed Initial count of consumed electric
 	 * @param  canGenerate Whether meter can generate electricity
 	 */
@@ -36,8 +36,8 @@ public class ElectricMeter extends Meter {
 	}
 
 	/**
-	 * Constructor for ElectricMeter class
-	 * Set all by parameter
+	 * Constructor for ElectricMeter class.
+	 * Set all by parameter.
 	 * @param  consumed Initial count of consumed electric
 	 * @param  canGenerate Whether meter can generate electricity
 	 * @param  generated Initial count of generated electric
@@ -46,12 +46,9 @@ public class ElectricMeter extends Meter {
 		super(consumed, canGenerate, generated);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	@Override
 	public String getType() {
-		return "Electric";
+		return UtilityType.ELECTRIC.asString();
 	}
 
 }

@@ -2,48 +2,76 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Class representing a house
- * This house only allows a single instance of each Meter type
- * This house allows multiple instances of the same Appliance
+ * Class representing a house.
+ * This house only allows a single instance of each Meter type.
+ * This house allows multiple instances of the same Appliance.
  * 
  * ECS Smart Meter - COMP1202 Coursework
  * @author dsj1n15
  */
 public class House {
-	int time; // units of 15 minutes (non-wrapping)
+	private String name;
+	private int time; // units of 15 minutes (non-wrapping)
 
-	// Array lists
-	ArrayList<Meter> meters;
-	ArrayList<Appliance> appliances;
-	ArrayList<Person> people;
+	// ArrayLists holding House's connected objects
+	ArrayList<Meter> meters = new ArrayList<Meter>();
+	ArrayList<Appliance> appliances = new ArrayList<Appliance>();
+	ArrayList<Person> people = new ArrayList<Person>();
 
 	/**
-	 * Constructor for House class
-	 * Default time to 0
+	 * Constructor for House class.
+	 * Default time and name.
 	 */
 	public House() {
-		this(0);
+		this("House", 0);
 	}
-
+	
 	/**
-	 * Constructor for House class
+	 * Constructor for House class.
+	 * Default time.
+	 * @param  name Name for house
+	 */
+	public House(String name) {
+		this(name, 0);
+	}
+	
+	/**
+	 * Constructor for House class.
+	 * Default name.
 	 * @param  time The current time in the house
 	 */
 	public House(int time) {
-
+		this("House", time);
+	}
+	
+	/**
+	 * Constructor for House class.
+	 * @param  name Name for house
+	 * @param  time The current time in the house
+	 */
+	public House(String name, int time) {
+		// Check arguments are sensible
+		if (name == null) {
+			Logger.error("House's name cannot be null");
+		}
 		if (time < 0) {
 			Logger.error("House's time cannot be negative");
-			throw new IllegalArgumentException();
 		}
 	
+		// Assign properties
+		this.name = name;
 		this.time = time;
 		
-		// Initialise ArrayLists
-		meters = new ArrayList<Meter>();
-		appliances = new ArrayList<Appliance>();
-		people = new ArrayList<Person>();
+		Logger.message(String.format("House '%s' started at time '%d'", name, time));
 	}
 
+	/**
+	 * @return  Returns the value of name
+	 */
+	public String getName() {
+		return name;
+	}
+	
 	/**
 	 * @return  Returns the value of time
 	 */
@@ -52,29 +80,51 @@ public class House {
 	}
 
 	/**
-	 * Adds a Meter to the House
+	 * Adds a Meter to the House.
 	 * @param  meter Meter to add
 	 */
 	public void addMeter(Meter meter) {
 		// Check meter is not null
 		if (meter == null) {
-			Logger.warning("Meter not added to house - null meter");
+			Logger.warning(String.format("Meter not connected to '%s' - null meter", name));
 		}
 		else {
 			// Check meter is not already attached, else add to array list
-			String type = meter.getType();
-			if (getMeterOfType(type) != null) {
-				Logger.warning("Meter not added to house - meter type already exists");
+			String meterType = meter.getType();
+			if (getMeterOfType(meterType) != null) {
+				Logger.warning(String.format("Meter '%s' not connected to '%s' - type is already connected", meterType, name));
 			}
 			else {
-				System.out.println(String.format("Meter of type '%s' added to house", type));
-				meters.add(meter);	
+				Logger.message(String.format("Meter '%s' connected to '%s'", meterType, name));
+				meters.add(meter);
+				updateAllApplianceMeters();
+			}
+		}
+	}
+
+	
+	/**
+	 * Removes a Meter from House by object.
+	 * @param  meter Meter to remove
+	 */
+	public void removeMeter(Meter meter) {
+		if (meter == null) {
+			Logger.warning(String.format("Meter not removed from '%s' - null meter", name)); 
+		}
+		else {
+			// Attempt to remove meter, true if successful
+			if (meters.remove(meter)) {
+				Logger.message(String.format("Meter '%s' removed from '%s", meter.getType(), name));
+				updateAllApplianceMeters();
+			}
+			else {
+				Logger.warning(String.format("Meter '%s' not removed from '%s' - not found", meter.getType(), name)); 
 			}
 		}
 	}
 
 	/**
-	 * Returns the Meter that matches a type
+	 * Returns the Meter that matches a type.
 	 * @param   meterType Type of meter to search for
 	 * @return  matched Meter or null if not found
 	 */
@@ -89,48 +139,73 @@ public class House {
 	}
 	
 	/**
-	 * Adds an Appliance to the House
+	 * Adds an Appliance to the House.
 	 * @param  appliance Appliance to add
 	 */
 	public void addAppliance(Appliance appliance) {
 		// Add if appliance is not null
 		if (appliance == null) {
-			Logger.warning("Appliance not added to house - null appliance");      
+			Logger.warning(String.format("Appliance not added to '%s' - null appliance", name));      
 		}
 		// Check for exact appliance reference in appliances
 		else if (appliances.contains(appliance)) {
-			Logger.warning("Appliance not added to house - appliance instance exists in house"); 
+			Logger.warning(String.format("Appliance '%s' not added to '%s' - appliance instance exists in house", name)); 
 		}
 		// Check if number of appliances exceed max
 		else if (numAppliances() >= 25) {
-			Logger.warning("Appliance not added to house - maximum of 25 appliances");
+			Logger.warning(String.format("Appliance '%s' not added to '%s' - maximum of 25 appliances", name));
 		}
 		// Appliance okay
 		else {
-			System.out.println(String.format("Appliance of type '%s' added to house", appliance.getType()));
-			appliances.add(appliance);      
+			Logger.message(String.format("Appliance '%s' added to '%s'", appliance.getType(), name));
+			appliances.add(appliance);
+			updateApplianceMeters(appliance);
 		}
 	}
 
 	/**
-	 * Removes an Appliance from House by object
+	 * Removes an Appliance from House by object.
 	 * @param  appliance Appliance to remove
 	 */
 	public void removeAppliance(Appliance appliance) {
 		if (appliance == null) {
-			Logger.warning("Appliance not removed from house - null appliance"); 
+			Logger.warning(String.format("Appliance not removed from '%s' - null appliance", name)); 
 		}
 		else {
 			// Attempt to remove appliance, returns true if successful
 			if (appliances.remove(appliance)) {
-				System.out.println(String.format("Appliance '%s' removed from house", appliance.getType()));
+				Logger.message(String.format("Appliance '%s' removed from '%s", appliance.getType(), name));
 			}
 			else {
-				Logger.warning("Appliance not removed from house - not found"); 
+				Logger.warning(String.format("Appliance '%s' not removed from '%s' - not found", appliance.getType(), name)); 
 			}
 		}
 	}
-
+	
+	/**
+	 * Runs updateApplianceMeters() for all connected appliances 
+	 */
+	private void updateAllApplianceMeters() {
+		for (Appliance appliance : appliances) {
+			updateApplianceMeters(appliance);
+		}
+	}
+	
+	/**
+	 * Adds all Meters connected to the House to the given Appliance,
+	 * replacing if necessary.
+	 * @param  appliance Appliance to add meters to
+	 */
+	private void updateApplianceMeters(Appliance appliance) {
+		for (Meter meter : meters) {
+			// If appliance uses meter type, add it
+			if (appliance.getUsageFromType(meter.getType()) != 0) {
+				// Force replace if required
+				appliance.addMeter(meter, true); 
+			}
+		}
+	}
+	
 	/**
 	 * Returns the number of Appliance objects in appliances
 	 * @return  Number of appliances in the house
@@ -161,9 +236,16 @@ public class House {
 		}
 		else {
 			// Add to array list
-			System.out.println(String.format("Meter of type '%s' added to house", person.getName()));
+			Logger.message(String.format("Person '%s' added to '%s'", person.getName(), name));
 			people.add(person);	
 		}
+	}
+	
+	/**
+	 * @return  Returns the iterator for people
+	 */
+	public Iterator<Person> getPeopleIterator() {
+		return people.iterator();
 	}
 	
 	/**
@@ -234,7 +316,7 @@ public class House {
 
 		// Print lines of StringBuilder array
 		for(int i = 0; i < reportLines.length; i++) {
-			System.out.println(reportLines[i].toString());
+			Logger.message(reportLines[i].toString());
 		}
 
 	}
