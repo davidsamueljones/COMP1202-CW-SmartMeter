@@ -73,6 +73,8 @@ public class Simulation {
 		if (simHouses.size() == 0) {
 			Logger.error("No houses found in file");
 		}
+		// Close reader to free up resources
+		reader.closeReader();
 		
 		// Assign simulation properties
 		this.simLength = simLength;

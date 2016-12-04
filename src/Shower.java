@@ -8,9 +8,9 @@ public abstract class Shower extends Appliance {
 
 	/**
 	 * Constructor for Shower class.
-	 * @param  electricUsage Electric use per unit time [>= 0]
-	 * @param  gasUsage Gas use per unit time [>= 0]
-	 * @param  waterUsage Water use per unit time [>= 0]
+	 * @param  electricUsage Electric use per unit time
+	 * @param  gasUsage Gas use per unit time
+	 * @param  waterUsage Water use per unit time
 	 * @param  timeOn  Duty cycle of cooker [-1 || > 0]
 	 */
 	public Shower(int electricUsage, int gasUsage, int waterUsage, int timeOn) {

@@ -242,10 +242,11 @@ public class House {
 	}
 	
 	/**
-	 * @return  Returns the iterator for people
+	 * @param person Person to find
+	 * @return  Returns true if instance of person is in house
 	 */
-	public Iterator<Person> getPeopleIterator() {
-		return people.iterator();
+	public boolean isPersonInHouse(Person person) {
+		return people.contains(person);
 	}
 	
 	/**
@@ -259,7 +260,7 @@ public class House {
 
 		// Call each Person timePasses method
 		for (Person person : people) {
-			person.timePasses(time);
+			person.timePasses(this);
 		}
 
 		// Increment time of day
@@ -276,12 +277,12 @@ public class House {
 	 * Create a report using the houses connected meters
 	 * Report lists their consumed and generated values
 	 * Prints report to command line after generation
-	 * NOTE: This code is not memory efficent or fast but is flexible for future report changes
+	 * NOTE: This code is not memory efficient or fast but is flexible for future report changes
 	 */
 	private void outputMeterReport() {
 
 		// Declare StringBuilder array of report line count
-		StringBuilder[] reportLines = new StringBuilder[5];
+		StringBuilder[] reportLines = new StringBuilder[6];
 		// Initialise StringBuilder array to hold the report lines
 		for (int i = 0; i < reportLines.length; i++) {
 			reportLines[i] = new StringBuilder(256); // By default assign 256 characters per line
@@ -292,20 +293,21 @@ public class House {
 
 		// Create row headings
 		// reportLines[0] is wrapper
-		reportLines[1].append(String.format(columnFormat, "[DAY REPORT]"));
-		reportLines[2].append(String.format(columnFormat, "{Consumed}"));
-		reportLines[3].append(String.format(columnFormat, "{Generated}"));
+		reportLines[1].append(String.format("%s - Day %d", name, (time % 96) + 1));
+		reportLines[2].append(String.format(columnFormat, "---"));
+		reportLines[3].append(String.format(columnFormat, "{Consumed}"));
+		reportLines[4].append(String.format(columnFormat, "{Generated}"));
 		// reportLines[n-1] is wrapper
 		
 		// Append information to columns
 		for (Meter meter : meters) {
-			reportLines[1].append(String.format(columnFormat, meter.getType()));
-			reportLines[2].append(String.format(columnFormat, meter.getConsumed()));
-			reportLines[3].append(String.format(columnFormat, meter.getGenerated()));
+			reportLines[2].append(String.format(columnFormat, meter.getType()));
+			reportLines[3].append(String.format(columnFormat, meter.getConsumed()));
+			reportLines[4].append(String.format(columnFormat, meter.getGenerated()));
 		}
 		
-		// Determine width of report (length of header - 1)
-		int width = reportLines[1].length() - 1;
+		// Determine width of report (length of standard row - 1)
+		int width = reportLines[2].length() - 1;
 
 		// Create a string for the report wrapper
 		for(int i = 0; i < width; i++){

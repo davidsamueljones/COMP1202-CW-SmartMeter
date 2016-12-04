@@ -15,7 +15,7 @@ public class ElectricMeter extends Meter {
 	public ElectricMeter() {
 		this(0);
 	}
-
+	
 	/**
 	 * Constructor for ElectricMeter class.
 	 * Set consumed by parameter, default others.
@@ -25,6 +25,15 @@ public class ElectricMeter extends Meter {
 		this(consumed, false);
 	}
 
+	/**
+	 * Constructor for ElectricMeter class.
+	 * Set canGenerate by parameter, default others.
+	 * @param  canGenerate Whether meter can generate electricity
+	 */
+	public ElectricMeter(boolean canGenerate) {
+		this(0, canGenerate);
+	}
+	
 	/**
 	 * Constructor for ElectricMeter class.
 	 * Set consumed  and canGenerate by parameter, default others.

@@ -13,7 +13,6 @@ public class Kettle extends Appliance {
 	private final static int DEFAULT_WATER_USAGE = 1;
 	private final static int DEFAULT_TIME_ON = 1;
 	private final static UtilityType[] DEFAULT_ALLOWED_CONSUMPTION = {UtilityType.ELECTRIC, UtilityType.WATER};
-	private final static UtilityType[] DEFAULT_ALLOWED_GENERATION = {};
 	
 	/**
 	 * Constructor for Kettle class.
@@ -37,15 +36,11 @@ public class Kettle extends Appliance {
 	 * Constructor for Kettle class.
 	 * Set usage by parameters, only allowing appropriate usage types.
 	 * @param  electricUsage Electric use per unit time [>= 0]
-	 * @param  gasUsage Gas use per unit time [>= 0]
+	 * @param  gasUsage Gas use per unit time [== 0]
 	 * @param  waterUsage Water use per unit time [>= 0]
 	 */
 	public Kettle(int electricUsage, int gasUsage, int waterUsage) {
 		super(electricUsage, gasUsage, waterUsage, DEFAULT_TIME_ON);
-
-		// Check if arguments are sensible for Appliance type
-		checkUsageAllowed(DEFAULT_ALLOWED_CONSUMPTION, false);
-		checkUsageAllowed(DEFAULT_ALLOWED_GENERATION, true);
 		
 		// Define Appliance tasks on object instantiation
 		// An exception is thrown if the task method does not exist
@@ -56,5 +51,9 @@ public class Kettle extends Appliance {
 	public String getType() {
 		return ApplianceType.KETTLE.asString();
 	}
-
+	
+	@Override
+	protected UtilityType[] getAllowedConsumption() {
+		return DEFAULT_ALLOWED_CONSUMPTION;
+	}
 }

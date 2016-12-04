@@ -13,7 +13,6 @@ public class ElectricShower extends Shower {
 	private final static int DEFAULT_WATER_USAGE = 4;
 	private final static int DEFAULT_TIME_ON = 1;
 	private final static UtilityType[] DEFAULT_ALLOWED_CONSUMPTION = {UtilityType.ELECTRIC, UtilityType.WATER};
-	private final static UtilityType[] DEFAULT_ALLOWED_GENERATION = {};
 	
 	/**
 	 * Constructor for ElectricShower class.
@@ -37,7 +36,7 @@ public class ElectricShower extends Shower {
 	 * Constructor for ElectricShower class.
 	 * Set usage by parameters, only allowing appropriate usage types.
 	 * @param  electricUsage Electric use per unit time [>= 0]
-	 * @param  gasUsage Gas use per unit time [>= 0]
+	 * @param  gasUsage Gas use per unit time [== 0]
 	 * @param  waterUsage Water use per unit time [>= 0]
 	 */
 	public ElectricShower(int electricUsage, int gasUsage, int waterUsage) {
@@ -45,7 +44,6 @@ public class ElectricShower extends Shower {
 
 		// Check if arguments are sensible for Appliance type
 		checkUsageAllowed(DEFAULT_ALLOWED_CONSUMPTION, false);
-		checkUsageAllowed(DEFAULT_ALLOWED_GENERATION, true);
 		
 		// No extra tasks
 	}
@@ -54,5 +52,9 @@ public class ElectricShower extends Shower {
 	public String getType() {
 		return ApplianceType.ELECTRIC_SHOWER.asString();
 	}
-
+	
+	@Override
+	protected UtilityType[] getAllowedConsumption() {
+		return DEFAULT_ALLOWED_CONSUMPTION;
+	}
 }

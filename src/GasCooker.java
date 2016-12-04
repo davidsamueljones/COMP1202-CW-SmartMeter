@@ -13,7 +13,6 @@ public class GasCooker extends Cooker {
 	private final static int DEFAULT_WATER_USAGE = 0;
 	private final static int DEFAULT_TIME_ON = 4;
 	private final static UtilityType[] DEFAULT_ALLOWED_CONSUMPTION = {UtilityType.GAS};
-	private final static UtilityType[] DEFAULT_ALLOWED_GENERATION = {};
 	
 	/**
 	 * Constructor for GasCooker class
@@ -35,17 +34,16 @@ public class GasCooker extends Cooker {
 	/**
 	 * Constructor for GasCooker class
 	 * Set usage by parameters, only allowing appropriate usage types
-	 * @param  electricUsage Electric use per unit time [>= 0]
+	 * @param  electricUsage Electric use per unit time [== 0]
 	 * @param  gasUsage Gas use per unit time [>= 0]
-	 * @param  waterUsage Water use per unit time [>= 0]
+	 * @param  waterUsage Water use per unit time [== 0]
 	 */
 	public GasCooker(int electricUsage, int gasUsage, int waterUsage) {
 		super(electricUsage, gasUsage, waterUsage, DEFAULT_TIME_ON);
 
 		// Check if arguments are sensible for Appliance type
 		checkUsageAllowed(DEFAULT_ALLOWED_CONSUMPTION, false);
-		checkUsageAllowed(DEFAULT_ALLOWED_GENERATION, true);
-		
+
 		// No extra tasks
 	}
 
@@ -53,5 +51,9 @@ public class GasCooker extends Cooker {
 	public String getType() {
 		return ApplianceType.GAS_COOKER.asString();
 	}
-
+	
+	@Override
+	protected UtilityType[] getAllowedConsumption() {
+		return DEFAULT_ALLOWED_CONSUMPTION;
+	}
 }	

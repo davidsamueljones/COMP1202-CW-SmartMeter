@@ -27,13 +27,12 @@ public abstract class Appliance {
 	
 	/**
 	 * Constructor for Appliance class.
-	 * @param  electricUsage Electric use per unit time [>= 0]
-	 * @param  gasUsage Gas use per unit time [>= 0]
-	 * @param  waterUsage Water use per unit time [>= 0]
+	 * @param  electricUsage Electric use per unit time
+	 * @param  gasUsage Gas use per unit time
+	 * @param  waterUsage Water use per unit time
 	 * @param  timeOn  Duty cycle of appliance [-1 || > 0]
 	 */
 	protected Appliance(int electricUsage, int gasUsage, int waterUsage, int timeOn) {
-		
 		// Throw an exception when constructing if arguments are not sensible
 		if (timeOn != -1 && timeOn <= 0) {
 			Logger.error("Time on must be -1 or positive");
@@ -45,6 +44,9 @@ public abstract class Appliance {
 		this.waterUsage = waterUsage;
 		this.timeOn = timeOn;
 
+		// Check if arguments are sensible for Appliance type
+		checkUsageAllowed(getAllowedConsumption(), false);
+		checkUsageAllowed(getAllowedGeneration(), true);
 	}
 	
 	/**
@@ -248,7 +250,7 @@ public abstract class Appliance {
 	
 		// If null was returned, meter not found
 		if (meterOfType == null) {
-			Logger.warning(String.format("Attempted meter increment but meter of type '%s' not connected", meterType));
+			Logger.warning(String.format("Attempted meter increment but meter of type '%s' not connected", meterType.asString()));
 		}
 		else {
 			// Check if amount should increment consumed or generated
@@ -261,10 +263,10 @@ public abstract class Appliance {
 				// Check if meter has the generation capability
 				if (meterOfType.canGenerate()) {
 					// For meter of type, incrementGenerated
-					meterOfType.incrementGenerated(amount);
+					meterOfType.incrementGenerated(-amount);
 				}
 				else {
-					Logger.warning(String.format("Attempted meter generation increment but meter of type '%s' does not support generation", meterType));
+					Logger.warning(String.format("Attempted meter generation increment but meter of type '%s' does not support generation", meterType.asString()));
 				}
 			}
 		}
@@ -370,5 +372,23 @@ public abstract class Appliance {
 	 * @return  Appliance type as string
 	 */
 	public abstract String getType();
+
+	/**	
+	 * Get the list of consumption types allowed by type of Appliance.
+	 * If this is not overridden, no generation is allowed.
+	 * @return  All allowed UtilityTypes in an array
+	 */
+	protected UtilityType[] getAllowedConsumption() {
+		return new UtilityType[] {};
+	}
+	
+	/**	
+	 * Get the list of generation types allowed by type of Appliance.
+	 * If this is not overridden, no generation is allowed.
+	 * @return  All allowed UtilityTypes in an array
+	 */
+	protected UtilityType[] getAllowedGeneration() {
+		return new UtilityType[] {};
+	}
 
 }

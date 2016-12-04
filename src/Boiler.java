@@ -1,6 +1,6 @@
 /**
  * Class of Appliance representing a boiler.
- * Assumed to be an always on Appliance that uses gas only.
+ * Assumed to be an always on Appliance, which can be toggled, that that uses gas only.
  * Duty cycle always default.
  * 
  * ECS Smart Meter - COMP1202 Coursework
@@ -13,7 +13,6 @@ public class Boiler extends Appliance {
 	private final static int DEFAULT_WATER_USAGE = 0;
 	private final static int DEFAULT_TIME_ON = -1;
 	private final static UtilityType[] DEFAULT_ALLOWED_CONSUMPTION = {UtilityType.ELECTRIC, UtilityType.GAS, UtilityType.WATER};
-	private final static UtilityType[] DEFAULT_ALLOWED_GENERATION = {};
 	
 	/**
 	 * Constructor for Boiler class.
@@ -42,10 +41,6 @@ public class Boiler extends Appliance {
 	public Boiler(int electricUsage, int gasUsage, int waterUsage) {
 		super(electricUsage, gasUsage, waterUsage, DEFAULT_TIME_ON);
 		
-		// Check if arguments are sensible for Appliance type
-		checkUsageAllowed(DEFAULT_ALLOWED_CONSUMPTION, false);
-		checkUsageAllowed(DEFAULT_ALLOWED_GENERATION, true);
-		
 		// Define Appliance tasks on object instantiation
 		// An exception is thrown if the task method does not exist
 		addTask(new ApplianceTask("TurnOnBoiler", getMethod("turnOn"), true, false));
@@ -55,6 +50,11 @@ public class Boiler extends Appliance {
 	@Override
 	public String getType() {
 		return ApplianceType.BOILER.asString();
+	}
+
+	@Override
+	protected UtilityType[] getAllowedConsumption() {
+		return DEFAULT_ALLOWED_CONSUMPTION;
 	}
 
 }

@@ -69,9 +69,15 @@ public abstract class Person {
 		if (task == null) {
 			Logger.warning(String.format("Task not added to '%s' - null task", name));
 		}
+		// Check for task occurring at same time
+		else if (getTaskAtTime(task.getSetTime()) != null) {
+			Logger.warning(String.format("Task '%s' not added to '%s' - task already scheduled for time '%d'", 
+					task.getTaskName(), task.getTaskName(), name, task.getSetTime())); 
+		}
 		// Task okay
 		else {
-			Logger.message(String.format("Task '%s' added to '%s'", task.getTaskName(), name));
+			Logger.message(String.format("Task '%s' added to '%s' for time '%d'", 
+					task.getTaskName(), name, task.getSetTime()));
 			tasks.add(task);
 		}
 	}
@@ -96,17 +102,32 @@ public abstract class Person {
 	}
 
 	/**
-	 * Simulate a unit time passing for Person.
-	 * @param  currentTime Time to process tasks for
+	 * Finds the task a person is doing at a time
+	 * @param  time Time 
+	 * @return  Task at time, null if not found
 	 */
-	public void timePasses(int currentTime) {
-		// Process each task
+	public PersonTask getTaskAtTime(int time) {
+		// Search for task time
 		for (PersonTask task : tasks) {
-			// If task should be done now
-			if (currentTime == task.getSetTime()) {
+			if (task.getSetTime() == time) {
+				return task;
+			}
+		}	
+		return null; // task not found
+	}
+	
+	/**
+	 * Simulate a unit time passing for Person.
+	 * @param currentHouse House timePasses has been called from
+	 */
+	public void timePasses(House currentHouse) {
+		// Process each task, allow multiple tasks to be called in one unit time
+		for (PersonTask task : tasks) {
+			// If task belongs to calling house and current time is now
+			if (currentHouse == task.getTargetHouse() && currentHouse.getTime() == task.getSetTime()) {
 				task.doTask(this); // attempt to do task
-				tasks.remove(task); // remove task from tasks
-				break; // break from loop, can only complete one task in unit time
+				tasks.remove(task);
+				break;
 			}
 		}
 	}

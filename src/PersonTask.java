@@ -52,6 +52,13 @@ public class PersonTask {
 	}
 	
 	/**
+	 * @return  Value of targetHouse
+	 */
+	public House getTargetHouse() {
+		return targetHouse;
+	}
+
+	/**
 	 * Attempt to run the task in the target appliance.
 	 * @param  person Person doing task
 	 * @return  True or false respective to if the task ran successfully

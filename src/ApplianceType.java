@@ -18,7 +18,9 @@ public enum ApplianceType {
 	POWER_SHOWER("Power shower"),
 	REFRIGERATOR("Refrigerator"),
 	TV("TV"),
-	WASHING_MACHINE("Washing machine");
+	WASHING_MACHINE("Washing machine"),
+	WATER_TURBINE("Water turbine"),
+	WIND_TURBINE("Wind turbine");
 	
 	// Enumeration properties
     private String stringType; // as a string type
