@@ -1,0 +1,14 @@
+House:
+House:Test 1
+House:"Test 2"
+House:3
+House:"4"
+House:"Test 5",5
+
+// EXPECTED PARSE:
+// House 'House' started at time '0'
+// House 'Test 1' started at time '0'
+// House 'Test 2' started at time '0'
+// House 'House' started at time '3'
+// House '4' started at time '0'
+// House 'Test 5' started at time '5'

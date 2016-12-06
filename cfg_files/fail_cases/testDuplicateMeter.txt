@@ -1,0 +1,6 @@
+House:
+ElectricMeter:42,false
+ElectricMeter:23,true
+
+// EXPECTED PARSING:
+// [WARNING] Meter 'Electric' not connected to 'House' - type is already connected

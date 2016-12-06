@@ -1,0 +1,9 @@
+House:
+ElectricMeter:
+WaterMeter:
+ElectricShower:
+Person:Dave,35,M
+TurnOnTV:1
+
+// EXPECTED SIMULATION:
+// [WARNING] 'Dave' could not do task 'TurnOnTV' in 'House' because an available appliance could not be found

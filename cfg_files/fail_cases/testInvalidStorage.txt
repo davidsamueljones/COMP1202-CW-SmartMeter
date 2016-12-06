@@ -1,0 +1,5 @@
+House:
+[EM]<-ElectricMeter:
+
+// EXPECTED PARSE:
+// Exception in thread "main" java.lang.RuntimeException: [ERROR] Cannot store object of type 'ElectricMeter'

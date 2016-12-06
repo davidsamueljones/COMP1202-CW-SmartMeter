@@ -1,0 +1,4 @@
+House
+
+// EXPECTED PARSE:
+// Exception in thread "main" java.lang.RuntimeException: [ERROR] Line read is not in a valid format

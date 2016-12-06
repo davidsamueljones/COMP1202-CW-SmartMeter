@@ -1,0 +1,10 @@
+House:
+ElectricMeter:
+TV:
+Person:Steve,5,F
+TurnOnTV:1
+TurnOffTV:2
+
+// EXPECTED SIMULATION:
+// 'Steve' did task 'TurnOnTV' on appliance 'TV' in 'House'
+// [WARNING] 'Steve' could not do task 'TurnOffTV' in 'House' because task requires an adult

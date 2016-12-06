@@ -1,0 +1,31 @@
+// Test House 1
+House:Dave's House
+ElectricMeter:
+WaterMeter:
+GasMeter:
+Person:Dave,35,M
+ElectricCooker:
+Cook:1
+
+// Test House 2
+House:Fiona's House
+ElectricMeter:
+WaterMeter:
+GasMeter:
+Person:Fiona,20,F
+GasCooker:
+Cook:1
+
+// EXPECTED RESULT:
+// ***************************************************
+// Dave's House - Day 1
+//          ---     Electric        Water          Gas 
+//   {Consumed}           20            0            0 
+//  {Generated}            0            0            0 
+// ***************************************************
+// ***************************************************
+// Fiona's House - Day 1
+//          ---     Electric        Water          Gas 
+//   {Consumed}            0            0           16 
+//  {Generated}            0            0            0 
+// ***************************************************

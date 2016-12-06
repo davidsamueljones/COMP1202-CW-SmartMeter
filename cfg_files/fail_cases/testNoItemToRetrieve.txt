@@ -1,0 +1,8 @@
+House:
+ElectricMeter:
+Person:Dave,35,M
+TV:
+[Dave]->TurnOnTV:
+
+// EXPECTED PARSE:
+// Exception in thread "main" java.lang.RuntimeException: [ERROR] Object reference 'Dave' not found

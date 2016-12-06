@@ -1,0 +1,17 @@
+House:
+GasMeter:
+PowerShower:
+ElectricMeter:
+ElectricShower:
+WaterMeter:
+
+// EXPECTED PARSE:
+// Meter 'Gas' connected to 'House'
+// Appliance 'Power shower' added to 'House'
+// Meter 'Gas' connected to appliance 'Power shower'
+// Meter 'Electric' connected to 'House'
+// Appliance 'Electric shower' added to 'House'
+// Meter 'Electric' connected to appliance 'Electric shower'
+// Meter 'Water' connected to 'House'
+// Meter 'Water' connected to appliance 'Power shower'
+// Meter 'Water' connected to appliance 'Electric shower'

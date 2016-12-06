@@ -1,0 +1,34 @@
+// House 1
+House:No Arguments
+ElectricMeter:true
+WindTurbine:
+
+// House 2
+House:Set Max 
+ElectricMeter:true
+WindTurbine:-10
+
+// House 3
+House:Set Modifier
+ElectricMeter:true
+WindTurbine:0.1
+
+// EXPECTED RESULT:
+// *************************
+// No Arguments - Day 1
+//         ---     Electric 
+//  {Consumed}            0 
+// {Generated}          ??? 
+// *************************
+// *************************
+// Set Max  - Day 1
+//         ---     Electric 
+//  {Consumed}            0 
+// {Generated}          ??? 
+// *************************
+// *************************
+// Set Modifier - Day 1
+//         ---     Electric 
+//  {Consumed}            0 
+// {Generated}          ??? 
+// *************************

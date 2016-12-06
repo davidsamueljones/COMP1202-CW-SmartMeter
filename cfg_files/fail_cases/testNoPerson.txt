@@ -1,0 +1,7 @@
+House:
+ElectricMeter:
+TV:
+TurnOnTV:1
+
+// EXPECTED PARSE:
+// Exception in thread "main" java.lang.RuntimeException: [ERROR] 'TurnOnTV' Invalid class type or task added before person

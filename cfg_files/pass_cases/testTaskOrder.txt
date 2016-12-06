@@ -1,0 +1,28 @@
+House:
+GasMeter:
+ElectricMeter:
+WaterMeter:
+ElectricShower:
+PowerShower:
+Person:Dave,35,M
+Shower:1
+Shower:3
+Person:Fiona,20,F
+Shower:2
+Shower:3
+
+// EXPECTED PARSE:
+// Person 'Dave' added to 'House'
+// Task 'Shower' added to 'Dave' for time '1'
+// Task 'Shower' added to 'Dave' for time '3'
+// Person 'Fiona' added to 'House'
+// Task 'Shower' added to 'Fiona' for time '2'
+// Task 'Shower' added to 'Fiona' for time '3'
+
+// EXPECTED RESULT:
+// ***************************************************
+// House - Day 1
+//          ---          Gas     Electric        Water 
+//   {Consumed}           10           36           17 
+//  {Generated}            0            0            0 
+// ***************************************************

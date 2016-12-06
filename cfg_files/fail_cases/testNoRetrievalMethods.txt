@@ -1,0 +1,7 @@
+House:
+ElectricMeter:
+[Dave]<-Person:Dave,35,M
+[Dave]->TV:
+
+// EXPECTED PARSE:
+// Exception in thread "main" java.lang.RuntimeException: [ERROR] No object retrieval methods for type 'TV'

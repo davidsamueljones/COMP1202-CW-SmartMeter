@@ -1,0 +1,32 @@
+// House
+House:
+// --- Meters
+ElectricMeter:25,false
+WaterMeter:52
+//--- Appliances
+// Note: that kettle constructor only allows an argument count of 0 (default all)
+// 2 (set electric & water) or 3 (set all) and hence provided file required extra argument
+Kettle:25,1
+ElectricCooker:
+ElectricShower:
+TV:
+Refrigerator:
+WashingMachine:3,0,2
+// --- People & Tasks
+Person:Dave,20,M
+Shower:28
+Cook:30
+DoWashing:40
+Person:Fiona,34,F
+TurnOnTV:33
+TurnOffTV:36
+Cook:45
+Shower:48
+
+// EXPECTED RESULT:
+// **************************************
+// House - Day 1
+//          ---     Electric        Water
+//   {Consumed}          212           76
+//  {Generated}            0            0
+// **************************************

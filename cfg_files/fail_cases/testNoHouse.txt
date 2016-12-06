@@ -1,0 +1,4 @@
+TV:
+
+// EXPECTED PARSE:
+// Exception in thread "main" java.lang.RuntimeException: [ERROR] House should be declared before any other declaration type

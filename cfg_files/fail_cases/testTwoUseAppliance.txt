@@ -1,0 +1,13 @@
+House:
+ElectricMeter:
+WaterMeter:
+ElectricShower:
+Person:Dave,35,M
+Shower:1
+Person:Fiona,20,F
+Shower:1
+
+// EXPECTED SIMULATION:
+// 'Dave' did task 'Shower' on appliance 'Electric shower' in 'House'
+// [WARNING] 'Fiona' could not do task 'Shower' in 'House' because an available appliance could not be found
+// 'Electric shower' duty cycle has completed and has turned off automatically

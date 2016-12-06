@@ -1,0 +1,10 @@
+House:
+ElectricMeter:
+GasMeter:
+WaterMeter:
+TV:1,0,0
+TV:1,1,0
+
+// EXPECTED PARSE:
+// Exception in thread "main" java.lang.RuntimeException: [ERROR] Class 'TV' construction failed
+// Caught exception: java.lang.RuntimeException: [ERROR] Appliance 'TV' cannot use 'Gas' for consumption

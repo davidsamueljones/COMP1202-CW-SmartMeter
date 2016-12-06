@@ -1,0 +1,4 @@
+House:1.0
+
+// EXPECTED PARSE:
+// Exception in thread "main" java.lang.RuntimeException: [ERROR] A constructor for class 'House' using provided arguments was not found

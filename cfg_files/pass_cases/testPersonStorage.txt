@@ -1,0 +1,44 @@
+House:
+ElectricMeter:25,true
+WaterMeter:52
+GasMeter:
+Person:Dave,35,M
+WashingMachine:
+DoWashing:1
+Refrigerator:
+Kettle:
+Boil:2
+Boiler:
+TurnOnBoiler:3
+TurnOffBoiler:4
+Dishwasher:
+WashDishes:5
+TV:
+TurnOnTV:6
+TurnOffTV:7
+NightLight:
+TurnOnNightLight:8
+TurnOffNightLight:9
+ElectricCooker:
+GasCooker:
+Cook:10
+Cook:11
+ElectricShower:
+PowerShower:
+Shower:12
+// Another person does task Shower on time 12 to test
+// PowerShower as order implies ElectricShower use first
+Person:Fiona,20,F
+Shower:12
+WindTurbine:
+WaterTurbine:
+TurnOnWaterTurbine:13
+TurnOffWaterTurbine:14
+
+// EXPECTED RESULT:
+// ***************************************************
+// House - Day 1
+//          ---     Electric        Water          Gas 
+//   {Consumed}          203           77           27 
+//  {Generated}          ???            0            0 
+// ***************************************************

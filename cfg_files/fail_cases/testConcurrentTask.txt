@@ -1,0 +1,11 @@
+House:
+ElectricMeter:
+TV:
+ElectricShower:
+Person:Dave,35,M
+TurnOnTV:1
+Shower:1
+
+// EXPECTED PARSE:
+// Task 'TurnOnTV' added to 'Dave' for time '1'
+// [WARNING] Task 'Shower' not added to 'Dave' - task already scheduled for time '1'
