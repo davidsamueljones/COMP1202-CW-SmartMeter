@@ -17,7 +17,7 @@ COMPILING AND RUNNING CODE:
 --------------------------------------------------------------
 WARNING: ALL .JAVA FILES MUST BE COMPILED
 This code will not compile properly if only the file 
-'Simulator.java' is passed to 'javac'; this is due to the 
+'Simulation.java’ is passed to 'javac'; this is due to the 
 use of reflection to solve parts of the coursework
 
 If in the directory with the source files, run:
@@ -41,7 +41,7 @@ folder. Those under 'pass_cases' are expected to run with no
 errors or warnings. However those under 'fail_cases' will 
 complete with either an error or a warning.
 
-e.g. java Simulation ../pass_cases/testAll.txt 96
+e.g. java Simulation ../cfg_files/pass_cases/testAll.txt 96
 
 Note:
 An error is defined as as an exception that halts the program
