@@ -11,9 +11,9 @@ import java.util.ArrayList;
  */
 public abstract class Appliance {
 	// Appliance properties
-	private int electricUsage;
-	private int gasUsage;
-	private int waterUsage;
+	protected int electricUsage;
+	protected int gasUsage;
+	protected int waterUsage;
 	private int timeOn; // time / 15 minutes
 
 	// Ongoing properties

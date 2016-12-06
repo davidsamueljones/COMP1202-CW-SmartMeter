@@ -41,9 +41,6 @@ public class ElectricCooker extends Cooker {
 	public ElectricCooker(int electricUsage, int gasUsage, int waterUsage) {
 		super(electricUsage, gasUsage, waterUsage, DEFAULT_TIME_ON);
 
-		// Check if arguments are sensible for Appliance type
-		checkUsageAllowed(DEFAULT_ALLOWED_CONSUMPTION, false);
-		
 		// No extra tasks
 	}
 

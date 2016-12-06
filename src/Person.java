@@ -72,7 +72,7 @@ public abstract class Person {
 		// Check for task occurring at same time
 		else if (getTaskAtTime(task.getSetTime()) != null) {
 			Logger.warning(String.format("Task '%s' not added to '%s' - task already scheduled for time '%d'", 
-					task.getTaskName(), task.getTaskName(), name, task.getSetTime())); 
+					task.getTaskName(), name, task.getSetTime())); 
 		}
 		// Task okay
 		else {

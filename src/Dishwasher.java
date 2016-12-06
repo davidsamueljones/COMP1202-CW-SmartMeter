@@ -42,9 +42,6 @@ public class Dishwasher extends Appliance {
 	public Dishwasher(int electricUsage, int gasUsage, int waterUsage) {
 		super(electricUsage, gasUsage, waterUsage, DEFAULT_TIME_ON);
 
-		// Check if arguments are sensible for Appliance type
-		checkUsageAllowed(DEFAULT_ALLOWED_CONSUMPTION, false);
-		
 		// Define Appliance tasks on object instantiation
 		// An exception is thrown if the task method does not exist
 		addTask(new ApplianceTask("WashDishes", getMethod("turnOn"), false, false));

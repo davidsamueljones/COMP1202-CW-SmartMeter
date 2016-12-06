@@ -41,10 +41,7 @@ public class ElectricShower extends Shower {
 	 */
 	public ElectricShower(int electricUsage, int gasUsage, int waterUsage) {
 		super(electricUsage, gasUsage, waterUsage, DEFAULT_TIME_ON);
-
-		// Check if arguments are sensible for Appliance type
-		checkUsageAllowed(DEFAULT_ALLOWED_CONSUMPTION, false);
-		
+	
 		// No extra tasks
 	}
 
