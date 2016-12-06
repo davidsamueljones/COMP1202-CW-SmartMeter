@@ -22,4 +22,11 @@ TurnOnTV:33
 TurnOffTV:36
 Cook:45
 Shower:48
-// [Final Output] Electric: 212, Water: 76
+
+// EXPECTED RESULT:
+// **************************************
+// House - Day 1
+//          ---     Electric        Water
+//   {Consumed}          212           76
+//  {Generated}            0            0
+// **************************************
