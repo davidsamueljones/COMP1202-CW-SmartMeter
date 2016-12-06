@@ -25,6 +25,35 @@ public class Logger {
 	// Default Error settings
 	private static boolean errorLog = true;
 
+
+	/**
+	 * Set logging settings for messages.
+	 * @param log True if log to file
+	 * @param toCmd True if display on command line
+	 */
+	public static void setMessageSettings(boolean log, boolean toCmd) {
+		messageToLog = log;
+		messageToCmd = toCmd;
+	}
+
+	/**
+	 * Set logging settings for warnings.
+	 * @param log True if log to file
+	 * @param toCmd True if display on command line
+	 */
+	public static void setWarningSettings(boolean log, boolean toCmd) {
+		warningLog = log;
+		warningToCmd = toCmd;
+	}
+
+	/**
+	 * Set logging settings for errors.
+	 * @param log True if log to file
+	 */
+	public static void setErrorSettings(boolean log) {
+		errorLog = log;
+	}
+	
 	/**
 	 * Log a message.
 	 * Use default logger properties.
@@ -36,7 +65,7 @@ public class Logger {
 
 	/**
 	 * Log a message.
-	 * Use default file logging property, use parameter logging property for writing to commmand line.
+	 * Use default file logging property, use parameter logging property for writing to command line.
 	 * @param  msg Message to output
 	 * @param  toCmd True or false respective to whether output should go to command line
 	 */

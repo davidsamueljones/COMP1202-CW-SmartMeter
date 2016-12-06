@@ -16,14 +16,18 @@ public class Simulation {
 	 * @param  args : [0] = filename, [1] = simulation length
 	 */
 	public static void main(String[] args) {
-		// Clear current log file
+		// Set up Logger
 		Logger.deleteExistingLog();
+		// Enable all logging
+		Logger.setMessageSettings(true, true);
+		Logger.setWarningSettings(true, true);
+		Logger.setErrorSettings(true);
 		
 		// --- Parse arguments
 		// If first argument is provided, use as filename, else use ConfigurationReader default
 		// If second argument is provided, use as simulation length, else use simulation length default
 		String filename = null;
-		int simLength = 96;
+		int simLength = House.DAY_LENGTH;
 		
 		if (args.length >= 3) {
 			Logger.error("Too many arguments. Correct usage is 'java Simulate [filename] [sim_length]'");

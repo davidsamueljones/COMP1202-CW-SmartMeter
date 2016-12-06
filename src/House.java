@@ -10,6 +10,12 @@ import java.util.Iterator;
  * @author dsj1n15
  */
 public class House {
+	/**
+	 * Constant day length
+	 */
+	public final static int DAY_LENGTH = 96;
+	
+	// House properties
 	private String name;
 	private int time; // units of 15 minutes (non-wrapping)
 
@@ -250,6 +256,21 @@ public class House {
 	}
 	
 	/**
+	 * Run simulation of time passing for current house
+	 */
+	public void go() {
+		while (true) {	
+			timePasses();
+			// Sleep between unit time increments to slow down simulation 
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				Logger.error("Thread sleep failed");
+			}
+		}
+	}
+	
+	/**
 	 * Simulate a unit time passing in the house
 	 */
 	public void timePasses() {
@@ -267,7 +288,7 @@ public class House {
 		time++;
 
 		// Check if day has ended
-		if (time % 96 == 0) {
+		if (time % DAY_LENGTH == 0) {
 			outputMeterReport();
 		}
 
@@ -310,14 +331,14 @@ public class House {
 		int width = reportLines[2].length() - 1;
 
 		// Create a string for the report wrapper
-		for(int i = 0; i < width; i++){
+		for (int i = 0; i < width; i++){
 			reportLines[0].append('*');
 		}   
 		// Copy the report wrapper to the last line
 		reportLines[reportLines.length - 1].append(reportLines[0].toString());
 
 		// Print lines of StringBuilder array
-		for(int i = 0; i < reportLines.length; i++) {
+		for (int i = 0; i < reportLines.length; i++) {
 			Logger.message(reportLines[i].toString());
 		}
 
