@@ -1,0 +1,181 @@
+ **************************************************************
+
+ ########  ########    ###    ########     ##     ## ######## 
+ ##     ## ##         ## ##   ##     ##    ###   ### ##       
+ ##     ## ##        ##   ##  ##     ##    #### #### ##       
+ ########  ######   ##     ## ##     ##    ## ### ## ######   
+ ##   ##   ##       ######### ##     ##    ##     ## ##       
+ ##    ##  ##       ##     ## ##     ##    ##     ## ##       
+ ##     ## ######## ##     ## ########     ##     ## ######## 
+
+**************************************************************
+David Jones [dsj1n15@soton.ac.uk]
+ECS Smart Meter - COMP1202 Coursework
+**************************************************************
+
+COMPILING AND RUNNING CODE:
+--------------------------------------------------------------
+WARNING: ALL .JAVA FILES MUST BE COMPILED
+This code will not compile properly if only the file 
+'Simulator.java' is passed to 'javac'; this is due to the 
+use of reflection to solve parts of the coursework
+
+If in the directory with the source files, run:
+    javac *.java
+[This will ensure all files are compiled]
+
+The program can then be ran through the Simulation class:
+    java Simulation [ARGUMENTS]
+
+Where arguments include:
+    [1] filename   - Configuration filename or path to load, 
+                     default myHouse.txt
+    [2] sim_length - Unit time to run simulation for, 
+                     default 96
+
+Both arguments are optional but to pass [2], [1] must be
+passed first.
+
+Example configuration files can be found in the 'cfg_files'
+folder. Those under 'pass_cases' are expected to run with no
+errors or warnings. However those under 'fail_cases' will 
+complete with either an error or a warning.
+
+e.g. java Simulation ../pass_cases/testAll.txt 96
+
+Note:
+An error is defined as as an exception that halts the program
+A warning is defined as something that does not interrupt the
+flow of the program. (See Logger extension)
+
+
+IDEOLOGY/METHOD:
+--------------------------------------------------------------
+* The final implementation is designed to be very extensible
+  and flexible, hence the heavy use of Reflection [Okayed 
+  with mjw].
+* There is little reliance on 'magic numbers' to improve
+  maintainability.
+* For the most part classes are very self-contained and are 
+  responsible for verifying their own inputs and defining 
+  their own behaviour. For instance, the ConfigurationReader
+  never assumes behaviour of Houses, Appliances, People before
+  attempting to construct them with their provided arguments.
+  [This is explained best in ConfigurationReader.java]
+
+
+PARTS COMPLETED:
+--------------------------------------------------------------
+[✔︎] Part 1 - Modelling Meters
+    * Defined as per specification
+    * Only electric meter has constructors to allow generation
+    * Enumeration of utility types [UtilityType.java]
+      NOTE: Capitalised utility types [Okayed with mjw]
+
+[✔︎] Part 2 - Modelling Abstract Appliances
+    * Defined as per specification except variable names are
+      changed to electricUsage, gasUsage, waterUsage for
+      consistency across program.
+    * Tasks utilise ApplianceTask.java to store component
+      parts; each appliance stores these in an array list.
+
+[✔︎] Part 3 - Modelling specific appliances
+    * Defined as per specification   
+    * Constructors allow all three usage types to provide
+      continuity across appliances.
+    * Constructors determine 'sensible' argument types
+      e.g. TV does not have a gas only constructor.
+    * Constructors provide defaults
+    * Enumeration of appliance types [ApplianceType.java]
+
+[✔︎] Part 4 - Modelling the house
+    * Defined as per specification
+    * Allows one of each meter
+    * Allows multiple of the same appliance 
+
+[✔︎] Part 5 - Modelling time passing in the House
+    * Defined as per specification   
+
+[✔︎] Part 6 - Modelling the people
+    * Defined as per specification
+    * Tasks utilise PersonTask.java to allocate a task
+      for a set time.
+
+[✔︎] Part 7 - Reading a simulation configuration file
+    * See ConfigurationReader.java for full breakdown
+    * NOTE: Kettle required water argument in provided test file
+    [Okayed with mjw]
+
+
+EXTENSIONS:
+--------------------------------------------------------------
+Allowed Usage:
+******************************
+All Appliances have sensible utility types defined as allowed,
+if a utility type that is not allowed is passed, construction
+fails. This is implemented separately for both generation and
+consumption.
+    Test case: fail_cases/testAllowedUsage.txt
+
+Extended Configuration File:
+******************************
+Multiple Houses - A configuration file can contain many houses
+listed one after another. These are created and simulated
+in parallel (using Simulation.java)
+    Test Case: pass_cases/testMultipleHouses.txt
+
+Commenting/Line Breaks - Simple syntax has been implemented to
+signify a line to ignore. (// or blank line)
+    Test Case: All test files have commenting
+
+Object Storage - More syntax has been added ([]<- and []->) to
+configuration files. These allow for assignment and retrieval 
+of created objects such as people. This allows for direct 
+assignment of people to tasks, even if they aren't in the right
+order or even in the same house.
+    Test Cases: pass_cases/testObjectStorage.txt
+                fail_cases/testInvalidStorage.txt
+                fail_cases/testNoRetrievalMethods.txt
+                fail_cases/testNoItemToRetrieve.txt
+
+Generating Appliances:
+******************************
+These added Appliances indicate the expandability of the 
+framework in place. All that is required to add these Appliances 
+is a class (which extends Appliance) and a reference in the 
+ApplianceType enumeration. With that they can be created using 
+the ConfigurationReader using any of their constructors without 
+ever touching the ConfigurationReader code.
+
+Water Turbine - Simple appliance that generates electricity 
+and consumes water; this may not be a realistic appliance but 
+shows generation and consumption simultaneously.
+    Test Case: pass_cases/testAll.txt
+
+Wind turbine - Appliance that generates electricity. Electricity
+generated varies every unit time. It starts at a percentage of
+its maximum (either defined or random) and sways randomly each 
+unit time; this attempts to simulate wind increasing or decreasing.
+This is done by overriding the timePasses method in Appliance.
+    Test Case: pass_cases/testWindTurbine.txt
+
+Logging:
+******************************
+Simple logging has been added so that separate streams of
+information can be handled and toggled. 
+The three types of stream used are:
+    * Message: Used as the direct replacement for 
+      System.out.println(). The stream can be toggled between:
+      output to command line, output to file, both or neither.
+    * Warning: Used as the direct replacement for 
+      System.err.println(). The stream can be toggled between:
+      output to command line, output to file, both or neither.
+      It also prefixes "[WARNING]" to messages.
+    * Error: The stream can be toggled between not outputting to 
+      file. It also prefixes "[ERROR]" to messages and throws
+      a RunTimeException that crashes the program. If the
+      RunTimeException is not caught, the error is shown on
+      the command line.
+
+A file called 'log.txt' is created in the program working directory.
+Any test that uses the Simulation class has all logging enabled.
