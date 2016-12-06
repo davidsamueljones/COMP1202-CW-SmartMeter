@@ -315,8 +315,8 @@ public class ConfigurationReader {
 	
 	/**
 	 * Validate configuration line is a valid command
-	 * @param line Line to search
-	 * @return Matching pattern if found, else null
+	 * @param  line Line to search
+	 * @return  Matching pattern if found, else null
 	 */
 	private static boolean isValidLine(String line) {
 		Pattern p = Pattern.compile(VALID_LINE_REGEX);
@@ -327,8 +327,8 @@ public class ConfigurationReader {
 	
 	/**
 	 * Search the given string for a pattern, to extract the class part.
-	 * @param line Line to search
-	 * @return Matching pattern if found, else null
+	 * @param  line Line to search
+	 * @return  Matching pattern if found, else null
 	 */
 	private static String getClassString(String line) {
 		Pattern p = Pattern.compile(CLASS_REGEX);
@@ -345,8 +345,8 @@ public class ConfigurationReader {
 	
 	/**
 	 * Search the given string for a pattern, to extract the object reference part.
-	 * @param line Line to search
-	 * @return Matching pattern if found, else null
+	 * @param  line Line to search
+	 * @return  Matching pattern if found, else null
 	 */
 	private static String getReferenceString(String line) {
 		Pattern p = Pattern.compile(VAR_STORAGE_REGEX);

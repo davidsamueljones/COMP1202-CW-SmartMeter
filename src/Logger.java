@@ -28,8 +28,8 @@ public class Logger {
 
 	/**
 	 * Set logging settings for messages.
-	 * @param log True if log to file
-	 * @param toCmd True if display on command line
+	 * @param  log True if log to file
+	 * @param  toCmd True if display on command line
 	 */
 	public static void setMessageSettings(boolean log, boolean toCmd) {
 		messageToLog = log;
@@ -38,8 +38,8 @@ public class Logger {
 
 	/**
 	 * Set logging settings for warnings.
-	 * @param log True if log to file
-	 * @param toCmd True if display on command line
+	 * @param  log True if log to file
+	 * @param  toCmd True if display on command line
 	 */
 	public static void setWarningSettings(boolean log, boolean toCmd) {
 		warningLog = log;
@@ -48,7 +48,7 @@ public class Logger {
 
 	/**
 	 * Set logging settings for errors.
-	 * @param log True if log to file
+	 * @param  log True if log to file
 	 */
 	public static void setErrorSettings(boolean log) {
 		errorLog = log;

@@ -34,14 +34,14 @@ public enum ApplianceType {
     }
 
     /**
-     * @return Returns the value of stringType
+     * @return  Returns the value of stringType
      */
     public String asString() {
         return stringType;
     }
 
     /**
-     * @return Returns the value of string type with words capatalised and spaces removed
+     * @return  Returns the value of string type with words capatalised and spaces removed
      */
     public String asClassString() {
         return toCamelCase(stringType);
@@ -49,8 +49,8 @@ public enum ApplianceType {
     
     /**
      * Converts a given string to camel case, e.g. Washing machine -> WashingMachine
-     * @param normalCase  String to convert to camel case
-     * @return Camel case version of provided string
+     * @param  normalCase  String to convert to camel case
+     * @return  Camel case version of provided string
      */
     private static String toCamelCase(String normalCase) {
     	StringBuilder camelCase = new StringBuilder(normalCase.length());
@@ -65,7 +65,7 @@ public enum ApplianceType {
     }
 
     /**
-     * @return Array of all ApplianceTypes as Class strings
+     * @return  Array of all ApplianceTypes as Class strings
      */
     public static String[] asClassStringArray() {
     	// Create array of strings of equal length to number of ApplianceTypes

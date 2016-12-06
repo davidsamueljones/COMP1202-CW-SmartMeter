@@ -118,7 +118,7 @@ public abstract class Person {
 	
 	/**
 	 * Simulate a unit time passing for Person.
-	 * @param currentHouse House timePasses has been called from
+	 * @param  currentHouse House timePasses has been called from
 	 */
 	public void timePasses(House currentHouse) {
 		// Process each task, allow multiple tasks to be called in one unit time

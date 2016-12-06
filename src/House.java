@@ -248,7 +248,7 @@ public class House {
 	}
 	
 	/**
-	 * @param person Person to find
+	 * @param  person Person to find
 	 * @return  Returns true if instance of person is in house
 	 */
 	public boolean isPersonInHouse(Person person) {

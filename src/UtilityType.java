@@ -26,21 +26,21 @@ public enum UtilityType {
     }
 
     /**
-     * @return Returns the value of stringType
+     * @return  Returns the value of stringType
      */
     public String asString() {
         return stringType;
     }
 
     /**
-     * @return Returns the value of meterType 
+     * @return  Returns the value of meterType 
      */
     public String asMeterString() {
         return meterType;
     }
 
     /**
-     * @return Array of all UtilityTypes as Meter strings
+     * @return  Array of all UtilityTypes as Meter strings
      */
     public static String[] asMeterStringArray() {
     	// Create array of strings of equal length to number of UtilityTypes
